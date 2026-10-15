@@ -5,11 +5,14 @@ import unittest
 import numpy as np
 import torch
 
-from deep_learning_course.lab01.gradients import analytical_gradient, framework_gradients, gradient_check
-from deep_learning_course.lab01.optimizers import optimize_rosenbrock, rosenbrock
-from deep_learning_course.lab01.polynomial import fit_ridge
-from deep_learning_course.lab01.regression import gradient_descent, minibatch_descent, mse, stability_threshold
-from deep_learning_course.lab01.tensors import pairwise_sq_dist_np, pairwise_sq_dist_torch, standardize_images
+from deep_learning_course.lab01.task02 import analytical_gradient, framework_gradients, gradient_check
+from deep_learning_course.lab01.extra import optimize_rosenbrock, rosenbrock
+from deep_learning_course.lab01.task06 import fit_ridge
+from deep_learning_course.lab01._shared import mse
+from deep_learning_course.lab01.task03 import gradient_descent
+from deep_learning_course.lab01.task04 import stability_threshold
+from deep_learning_course.lab01.task05 import minibatch_descent
+from deep_learning_course.lab01.task01 import pairwise_sq_dist_np, pairwise_sq_dist_torch, standardize_images
 
 
 class Lab01Tests(unittest.TestCase):
