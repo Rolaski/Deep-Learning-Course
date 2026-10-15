@@ -1,7 +1,12 @@
-"""Optional exercise: hand-written GD, momentum, and Adam."""
+"""Extra task: GD, momentum, and Adam on the Rosenbrock function."""
 
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
+
+from ._shared import _save
 
 
 def rosenbrock(point: torch.Tensor) -> torch.Tensor:
@@ -33,3 +38,24 @@ def optimize_rosenbrock(method: str, learning_rate: float, steps=3000, start=(-1
             point -= learning_rate * update
         path.append(point.detach().numpy().copy())
     return np.array(path)
+
+
+def run(output: Path, fast: bool = False, show: bool = False) -> dict:
+    steps = 300 if fast else 3000
+    methods = {"GD": ("gd", 1e-3), "Momentum": ("momentum", 2e-4), "Momentum (large lr)": ("momentum", 1e-3), "Adam": ("adam", 0.02)}
+    grid_x, grid_y = np.meshgrid(np.linspace(-2, 2, 300), np.linspace(-1, 3, 300))
+    z = (1 - grid_x)**2 + 100 * (grid_y - grid_x**2)**2
+    plt.figure(figsize=(8, 6))
+    plt.contour(grid_x, grid_y, z, levels=np.logspace(-1, 3.5, 25), alpha=0.6)
+    results = {}
+    for label, (method, rate) in methods.items():
+        path = optimize_rosenbrock(method, rate, steps)
+        distance = float(np.linalg.norm(path[-1] - 1))
+        results[label] = {"steps": steps, "distance_to_minimum": distance, "final_point": path[-1].tolist()}
+        plt.plot(path[:, 0], path[:, 1], lw=1, label=f"{label}: distance={distance:.3f}")
+    plt.plot(1, 1, "k*", ms=12)
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.legend()
+    _save(output, "rosenbrock", show)
+    return results
