@@ -1,6 +1,5 @@
 # Deep Learning Course
 
-Laboratory implementations for "Uczenie głębokie i jego zastosowania".
 
 Python 3.12, Ubuntu on WSL2, NVIDIA GPU, PyCharm Pro.
 
